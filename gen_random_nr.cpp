@@ -13,7 +13,7 @@ int main(int argc, char **argv){
     int N = std::stoi(argv[1]);
     std::vector<int> values;
     for(i = 0; i < N; i++){
-        values.push_back(N - i);
+        values.push_back(i);
     }
 
     // obtain a time-based seed:

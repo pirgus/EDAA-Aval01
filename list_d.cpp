@@ -32,8 +32,8 @@ int main(int argc, char **argv)
 
     // for (int i = 0; i < 30; i++)
     // {
-        input_file.clear();
-        input_file.seekg(0);
+        // input_file.clear();
+        // input_file.seekg(0);
         list_d *l = new list_d;
         auto t1 = std::chrono::high_resolution_clock::now();
         while (getline(input_file, buffer))
