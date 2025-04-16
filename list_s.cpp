@@ -13,11 +13,11 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now();
     while (getline(input_file, buffer))
     {
-        std::cout << " i = " << l->add_ordered(std::stoi(buffer)) << std::endl;
+        l->add_ordered(std::stoi(buffer));
     }
     auto t2 = std::chrono::high_resolution_clock::now();
 
-    l->print();
+    // l->print();
 
     std::chrono::duration<double, std::milli> ms_double = t2 - t1;
     std::cout << ms_double.count() << "ms\n";

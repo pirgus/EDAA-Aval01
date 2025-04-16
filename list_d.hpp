@@ -229,44 +229,29 @@ int list_d::remove_v(int value){
 }
 
 int list_d::add_ordered(int value){
-    if(size == 0){
+    node *aux = head;
+    // if the list is empty OR it is lesser than the first value, add at beginning
+    if(aux == nullptr || aux->get_value() > value){
         add(value);
         return 0;
     }
 
-    node *aux = head;
+    // otherwise, if the value is greater than the tail's value, add at end
+    if(value > tail->get_value()){
+        add_at_end(value);
+        return size;
+    }
+
+    // on the last case, go through the list and find the correct position to add the value
     int count = 0;
+    while(aux->get_next() != nullptr && aux->get_next()->get_value() < value){
+        aux = aux->get_next();
+        count++;
+    }
+
     node *new_node = new node(value);
-    node *earlier = head;
-
-    // if it's lesser than the first element
-    // takes its place and it's now the new head
-    if(value < aux->get_value()){
-        new_node->set_next(aux);
-        head = new_node;
-        size++;
-        return 0;
-    }
-    // it's not lesser than the first element, we have to cover the rest of the list
-    else{
-        // if value to be added is larger than the tail, add as the new tail
-        if(new_node->get_value() > tail->get_value()){
-            add_at_end(new_node->get_value());
-            return size;
-        }
-        // while the aux isn't the last element and our value is greater than aux's next value
-        while(aux->get_next() != nullptr && value > aux->get_next()->get_value()){
-            aux = aux->get_next();
-            count++;
-        }
-        new_node->set_next(aux->get_next());
-        aux->set_next(new_node);
-        // if it's the new last element of the list, we update the tail
-        // if(new_node->get_next() == nullptr){
-        //     tail = new_node;
-        // }
-        size++;
-        return count;
-    }
-
+    new_node->set_next(aux->get_next());
+    aux->set_next(new_node);
+    size++;
+    return count;
 }

@@ -38,14 +38,14 @@ int main(int argc, char **argv)
         auto t1 = std::chrono::high_resolution_clock::now();
         while (getline(input_file, buffer))
         {
-            std::cout << "count = " << l->add_ordered(std::stoi(buffer)) << std::endl;;
+            l->add_ordered(std::stoi(buffer));
         }
         auto t2 = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<double, std::milli> ms_double = t2 - t1;
         std::cout << ms_double.count() << "ms\n";
 
-        l->print();
+        // l->print();
         delete l;
     // }
 
