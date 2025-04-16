@@ -33,6 +33,9 @@ list_s::list_s(int m_size)
 
 list_s::~list_s()
 {
+    delete data;
+    max_size = -1;
+    size = -1;
 }
 
 int list_s::get_size(){

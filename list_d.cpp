@@ -45,6 +45,16 @@ int main(int argc, char **argv)
         std::chrono::duration<double, std::milli> ms_double = t2 - t1;
         std::cout << ms_double.count() << "ms\n";
 
+// ------------------- search
+
+        t1 = std::chrono::high_resolution_clock::now();
+
+        std::cout << "result of search = " << l->search(99999) << std::endl;
+        t2 = std::chrono::high_resolution_clock::now();
+
+        ms_double = t2 - t1;
+        std::cout << ms_double.count() << "ms\n";
+
         // l->print();
         delete l;
     // }
