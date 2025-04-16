@@ -10,53 +10,47 @@ int main(int argc, char **argv)
     input_file.open(file_name);
     std::string buffer;
 
-    // for (int i = 0; i < 30; i++)
-    // {
-    //     input_file.clear();
-    //     input_file.seekg(0);
+    double mean = 0;
 
-    //     list_d *l = new list_d;
-    //     auto t1 = std::chrono::high_resolution_clock::now();
-    //     while (getline(input_file, buffer))
-    //     {
-    //         l->add(std::stoi(buffer));
-    //     }
-    //     auto t2 = std::chrono::high_resolution_clock::now();
-
-    //     std::chrono::duration<double, std::milli> ms_double = t2 - t1;
-    //     std::cout << ms_double.count() << "ms\n";
-    //     delete l;
-    // }
-
-    // restore file pointer to the beginning of the file
-
-    // for (int i = 0; i < 30; i++)
-    // {
-        // input_file.clear();
-        // input_file.seekg(0);
+    for(int i = 0; i < 10; i++){
         list_d *l = new list_d;
+        input_file.clear();
+        input_file.seekg(0);
+    
         auto t1 = std::chrono::high_resolution_clock::now();
-        while (getline(input_file, buffer))
-        {
-            l->add_ordered(std::stoi(buffer));
+    
+        while (getline(input_file, buffer)){
+            l->add_ordered(std::stoi(buffer));   
         }
+    
         auto t2 = std::chrono::high_resolution_clock::now();
-
         std::chrono::duration<double, std::milli> ms_double = t2 - t1;
         std::cout << ms_double.count() << "ms\n";
-
-// ------------------- search
-
-        t1 = std::chrono::high_resolution_clock::now();
-
-        std::cout << "result of search = " << l->search(99999) << std::endl;
-        t2 = std::chrono::high_resolution_clock::now();
-
-        ms_double = t2 - t1;
-        std::cout << ms_double.count() << "ms\n";
-
-        // l->print();
+        mean += ms_double.count();
         delete l;
+    }
+
+    mean /= 10;
+    std::cout << "mean time = " << mean << std::endl;
+
+    // l->print();
+
+    // ------------------- search
+    list_d *l = new list_d;
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < 1000; i++){
+        int search_n = rand() % 100001;
+        l->search_ord(search_n);
+    }
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    auto ms_double = t2 - t1;
+    std::cout << "search time = " << ms_double.count() << "ms\n";
+
+
+    // l->print();
+    delete l;
     // }
 
     input_file.close();

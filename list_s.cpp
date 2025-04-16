@@ -13,7 +13,7 @@ int main(int argc, char **argv)
     auto t1 = std::chrono::high_resolution_clock::now();
     while (getline(input_file, buffer))
     {
-        l->add_ordered(std::stoi(buffer));
+        l->add(std::stoi(buffer));
     }
     auto t2 = std::chrono::high_resolution_clock::now();
 

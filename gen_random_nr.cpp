@@ -29,7 +29,12 @@ int main(int argc, char **argv){
     }
 
     for(i = 0; i < N; i++){
-        outdata << values[i] << std::endl;
+        if(i < N - 1){
+            outdata << values[i] << std::endl;
+        }
+        else{
+            outdata << values[i];
+        }
     }
 
     outdata.close();
