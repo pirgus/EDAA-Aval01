@@ -1,6 +1,7 @@
 #include "list_s.hpp"
 #include <fstream>
 #include <chrono>
+#include <vector>
 
 int main(int argc, char **argv)
 {
@@ -9,11 +10,17 @@ int main(int argc, char **argv)
     std::ifstream input_file;
     input_file.open(file_name);
     std::string buffer;
+    std::vector<int> values;
+
+    // first read into vector, so the exceution time doesn't count file reading
+    while(getline(input_file, buffer)){
+        values.push_back(std::stoi(buffer));
+    }
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    while (getline(input_file, buffer))
+    for(int j = 0; j < values.size(); j++)
     {
-        l->add(std::stoi(buffer));
+        l->add_ordered(values[j]);
     }
     auto t2 = std::chrono::high_resolution_clock::now();
 

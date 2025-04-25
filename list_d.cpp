@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <chrono>
+#include <vector>
+#include <cstring>
 
 int main(int argc, char **argv)
 {
@@ -9,51 +11,92 @@ int main(int argc, char **argv)
     std::ifstream input_file;
     input_file.open(file_name);
     std::string buffer;
+    std::vector<int> values;
+    std::ofstream output_file;
+    std::string o_file_name = "output_" + std::string(argv[2]) + std::string(argv[1]) + ".txt";
+    output_file.open(o_file_name);
 
     double mean = 0;
-
-    for(int i = 0; i < 10; i++){
-        list_d *l = new list_d;
-        input_file.clear();
-        input_file.seekg(0);
-    
-        auto t1 = std::chrono::high_resolution_clock::now();
-    
-        while (getline(input_file, buffer)){
-            l->add_ordered(std::stoi(buffer));   
-        }
-    
-        auto t2 = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> ms_double = t2 - t1;
-        std::cout << ms_double.count() << "ms\n";
-        mean += ms_double.count();
-        delete l;
+    // first read into vector, so the exceution time doesn't count file reading
+    while(getline(input_file, buffer)){
+        values.push_back(std::stoi(buffer));
     }
 
-    mean /= 10;
-    std::cout << "mean time = " << mean << std::endl;
+    list_d *l;
+    for(int i = 0; i < 10; i++){
+        l = new list_d;
+        std::chrono::duration<double, std::milli> ms_double;
+        if(strcmp("o", argv[2]) == 0){ // ordered insertion
+            auto t1 = std::chrono::high_resolution_clock::now();
+            for(int j = 0; j < values.size(); j++){
+                l->add_ordered(values[j]);
+            }
+            auto t2 = std::chrono::high_resolution_clock::now();
+            ms_double = t2 - t1;
+            // std::cout << ms_double.count() << "ms\n";
+        }
+        else{ // unordered insertion
+            auto t1 = std::chrono::high_resolution_clock::now();
+            for(int j = 0; j < values.size(); j++){
+                l->add(values[j]);
+            }
+            auto t2 = std::chrono::high_resolution_clock::now();
+            ms_double = t2 - t1;
+            // std::cout << ms_double.count() << "ms\n";
+        }
 
-    // l->print();
+        output_file << ms_double.count() << std::endl;
+        
+        if(i < 9){
+            delete l; // if it isn't the last test case, delete the list
+                      // otherwise, we keep the list to use it for the search tests
+        };
+    }
+
+
+    output_file << "EOI\n";
+    std::chrono::duration<double, std::milli> ms_double;
 
     // ------------------- search
-    list_d *l = new list_d;
 
-    auto t1 = std::chrono::high_resolution_clock::now();
-    for(int i = 0; i < 1000; i++){
-        int search_n = rand() % 100001;
-        l->search_ord(search_n);
+    // worst case scenario - 10 tests
+        // worst case for ordered linked list -> in this case, the penultimate value since we keep track of the tail
+    if(strcmp(argv[1], "o") == 0){
+        for(int i = 0; i < 10; i++){
+            auto t1 = std::chrono::high_resolution_clock::now();
+            l->search(std::stoi(argv[1]) - 2);
+            auto t2 = std::chrono::high_resolution_clock::now();
+            ms_double = t2 - t1;
+            output_file << ms_double.count() << std::endl;
+        }
     }
-    auto t2 = std::chrono::high_resolution_clock::now();
+    else{ // worst case for unordered list, element doesn't exist
+        for(int i = 0; i < 10; i++){
+            auto t1 = std::chrono::high_resolution_clock::now();
+            l->search(std::stoi(argv[1]) + 1);
+            auto t2 = std::chrono::high_resolution_clock::now();
+            ms_double = t2 - t1;
+            output_file << ms_double.count() << std::endl;
+        }
+    }
 
-    auto ms_double = t2 - t1;
-    std::cout << "search time = " << ms_double.count() << "ms\n";
+    output_file << "EOWC\n";
 
+    // random scenarios - 1000 scenarios
+    for(int i = 0; i < 1000; i++){
+        auto t1 = std::chrono::high_resolution_clock::now();
+        int search_n = rand() % (std::stoi(argv[1]) + 1);
+        l->search(search_n);
+        auto t2 = std::chrono::high_resolution_clock::now();
+        ms_double = t2 - t1;
+        output_file << ms_double.count() << std::endl;
+        // std::cout << "search time = " << ms_double.count() << "ms\n";
+    }
 
-    // l->print();
     delete l;
-    // }
 
     input_file.close();
+    output_file.close();
 
     return 0;
 }
