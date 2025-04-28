@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     std::ifstream input_file;
     input_file.open(file_name);
     std::string buffer;
-    std::vector<int> values;
+    std::vector<long int> values;
 
     // first read into vector, so the exceution time doesn't count file reading
     while(getline(input_file, buffer)){

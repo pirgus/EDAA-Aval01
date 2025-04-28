@@ -3,7 +3,7 @@
 // NODE CLASS DEFINITION --------------------------------------------------------------------
 class node{
     private:
-        int value;
+        long int value;
         node *next;
     
     public:
@@ -12,7 +12,7 @@ class node{
         ~node();
         node *get_next() const;
         void set_next(node *new_next);
-        int get_value() const;
+        long int get_value() const;
         void set_value(int new_value);
 };
 
@@ -38,7 +38,7 @@ void node::set_next(node *new_next){
     next = new_next;
 }
 
-int node::get_value() const{
+long int node::get_value() const{
     return value;
 }
 
@@ -60,14 +60,14 @@ public:
     list_d();
     ~list_d();
     int get_size();
-    int get_value(int position);
-    void add(int value);
+    long int get_value(int position);
+    void add(long int value);
     void print();
-    int remove_v(int value);
-    int add_at_end(int value);
-    int search(int value);
-    int search_ord(int value);
-    int add_ordered(int value);
+    int remove_v(long int value);
+    int add_at_end(long int value);
+    int search(long int value);
+    int search_ord(long int value);
+    int add_ordered(long int value);
 };
 
 list_d::list_d(){
@@ -89,7 +89,7 @@ int list_d::get_size(){
     return size;
 }
 
-int list_d::get_value(int position){
+long int list_d::get_value(int position){
     if(position > size || position < 0){
         std::cout << "Invalid index\n";
         return -1;
@@ -109,7 +109,7 @@ int list_d::get_value(int position){
     return -1;
 }
 
-void list_d::add(int value){
+void list_d::add(long int value){
     node *aux;
     aux = head;
     head = new node(value);
@@ -120,7 +120,7 @@ void list_d::add(int value){
     size++;
 }
 
-int list_d::add_at_end(int value){
+int list_d::add_at_end(long int value){
     node *aux = tail;
     if(aux == nullptr){
         add(value);
@@ -155,7 +155,7 @@ void list_d::print(){
 }
 
 // linear search: works for any kind of list: unordered or ordered, whatever!
-int list_d::search(int value){
+int list_d::search(long int value){
     int count = 0;
     node *aux = head;
     while(aux != nullptr){
@@ -166,11 +166,11 @@ int list_d::search(int value){
         count++;
     }
 
-    return -1;
+    return count;
 }
 
 // search in an ordered list (ONLY WORKS IF LIST IS ORDERED!!!!!!)
-int list_d::search_ord(int value){
+int list_d::search_ord(long int value){
     int count = 0;
     node *aux = head;
     while(aux != nullptr){
@@ -192,7 +192,7 @@ int list_d::search_ord(int value){
     return -1;
 }
 
-int list_d::remove_v(int value){
+int list_d::remove_v(long int value){
     node *aux = head;
     node *earlier;
     int count = 0;
@@ -228,7 +228,7 @@ int list_d::remove_v(int value){
     return -1;
 }
 
-int list_d::add_ordered(int value){
+int list_d::add_ordered(long int value){
     node *aux = head;
     // if the list is empty OR it is lesser than the first value, add at beginning
     if(aux == nullptr || aux->get_value() > value){

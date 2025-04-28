@@ -3,7 +3,7 @@
 class list_s
 {
 private:
-    int *data;
+    long int *data;
     int max_size;
     int size;
 public:
@@ -11,22 +11,22 @@ public:
     ~list_s();
     int get_size();
     void set_size(int n);
-    int add(int value);
+    int add(long int value);
     void print();
-    int get(int position);
-    int add_at(int value, int position);
-    int add_ordered(int value);
-    int set(int value, int position);
-    int contains(int value);
-    int remove(int value);
+    long int get(int position);
+    int add_at(long int value, int position);
+    int add_ordered(long int value);
+    int set(long int value, int position);
+    int contains(long int value);
+    int remove(long int value);
     int remove_at(int position);
-    int bin_search(int value);
-    int opt_search(int value);
+    int bin_search(long int value);
+    int opt_search(long int value);
 };
 
 list_s::list_s(int m_size)
 {
-    data = new int[m_size];
+    data = new long int[m_size];
     max_size = m_size;
     size = 0;
 }
@@ -46,7 +46,7 @@ void list_s::set_size(int n){
     size = n;
 }
 
-int list_s::add(int value){
+int list_s::add(long int value){
     if(size < max_size){
         data[size] = value;
         size++;
@@ -72,11 +72,11 @@ void list_s::print(){
     std::cout << " ]\n";
 }
 
-int list_s::get(int position){
+long int list_s::get(int position){
     return data[position];
 }
 
-int list_s::add_at(int value, int position){
+int list_s::add_at(long int value, int position){
     if(position <= size && size < max_size){
         int aux = value;
         while(position < size+1){
@@ -94,7 +94,7 @@ int list_s::add_at(int value, int position){
     }
 }
 
-int list_s::add_ordered(int value){
+int list_s::add_ordered(long int value){
     if(size < max_size){
         int i;
         for(i = size - 1; i >= 0 && data[i] > value; i--){
@@ -108,7 +108,7 @@ int list_s::add_ordered(int value){
     return -1;
 }
 
-int list_s::set(int value, int position){
+int list_s::set(long int value, int position){
     if(position < size){
         data[position] = value;
         return value;
@@ -119,7 +119,7 @@ int list_s::set(int value, int position){
     }
 }
 
-int list_s::contains(int value){
+int list_s::contains(long int value){
     for(int i = 0; i < size; i++){
         if(data[i] == value){
             return i;
@@ -129,7 +129,7 @@ int list_s::contains(int value){
     return -1;
 }
 
-int list_s::remove(int value){
+int list_s::remove(long int value){
     int position = contains(value);
     if(position > -1){
         if(position < size - 1){
@@ -169,7 +169,7 @@ int list_s::remove_at(int position){
     }
 }
 
-int list_s::bin_search(int value){
+int list_s::bin_search(long int value){
     int first_i = 0;
     int last_i = size - 1;
 
@@ -192,7 +192,7 @@ int list_s::bin_search(int value){
     return -1;
 }
 
-int list_s::opt_search(int value){
+int list_s::opt_search(long int value){
     // for ordered lists only
     if(data[0] > value || data[size] < value){
         return -1;
