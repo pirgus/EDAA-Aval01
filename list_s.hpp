@@ -172,12 +172,13 @@ int list_s::remove_at(int position){
 int list_s::bin_search(long int value){
     int first_i = 0;
     int last_i = size - 1;
+    int count = 0;
 
     while(last_i - first_i + 1 >= 1){
         int middle_i = (first_i + last_i) / 2;
 
         if(data[middle_i] == value){
-            return middle_i;
+            return count;
         }
         
         if(data[middle_i] < value){
@@ -187,14 +188,15 @@ int list_s::bin_search(long int value){
         if(data[middle_i] > value){
             last_i = middle_i - 1;
         }
+        count++;
     }
 
-    return -1;
+    return count;
 }
 
 int list_s::opt_search(long int value){
     // for ordered lists only
-    if(data[0] > value || data[size] < value){
+    if(data[0] > value || data[size - 1] < value){
         return -1;
     }
     else{
