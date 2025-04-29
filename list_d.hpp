@@ -7,7 +7,7 @@ class node{
         node *next;
     
     public:
-        node(int value);
+        node(long int value);
         node();
         ~node();
         node *get_next() const;
@@ -16,7 +16,7 @@ class node{
         void set_value(int new_value);
 };
 
-node::node(int v){
+node::node(long int v){
     value = v;
     next = nullptr;
 }
