@@ -33,7 +33,7 @@ list_s::list_s(int m_size)
 
 list_s::~list_s()
 {
-    delete data;
+    delete[] data;
     max_size = -1;
     size = -1;
 }
